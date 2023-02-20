@@ -27,4 +27,4 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
          files: /home/runner/work/qualityoflife/qualityoflife/target/qualityoflife-1.0-SNAPSHOT.jar
-         tag_name: "v0.0.1"
+         tag_name: "v.0.0.1"
