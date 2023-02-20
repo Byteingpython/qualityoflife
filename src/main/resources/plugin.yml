@@ -1,0 +1,4 @@
+name: Quality of Life
+version: '${project.version}'
+main: de.snowwars.qualityoflife.Qualityoflife
+api-version: 1.19
