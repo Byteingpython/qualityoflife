@@ -7,7 +7,7 @@ public final class Qualityoflife extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-
+        InventoryListener inventoryListener=new InventoryListener(this);
     }
 
     @Override
