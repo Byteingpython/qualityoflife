@@ -27,4 +27,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: binaries
-        files: /home/runner/work/qualityoflife/qualityoflife/target/*.jar
+        path: /home/runner/work/qualityoflife/qualityoflife/target/*.jar
