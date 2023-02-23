@@ -64,7 +64,7 @@ public class ShulkerListener implements Listener {
                 return;
             }
         }
-        if(!(event.getInventory() instanceof PlayerInventory)){
+        if(!(event.getClickedInventory() instanceof PlayerInventory)){
             return;
         }
         if(event.getClick()== ClickType.LEFT){
