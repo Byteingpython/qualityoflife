@@ -2,8 +2,10 @@ package de.snowwars.qualityoflife;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +24,23 @@ public class InventoryListener implements Listener {
         this.plugin=plugin;
     }
 
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent event){
+        if(event.getDamager() instanceof Player){
+            Player player = (Player) event.getDamager();
+            if(player.getInventory().getItemInMainHand().getType()!=Material.AIR){
+                Material material = player.getInventory().getItemInMainHand().getType();
+                String name = material.toString().split("_")[material.toString().split("_").length-1];
+                BukkitRunnable runnable = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        se
+                    }
+                }
+            }
+        }
+    }
     /*
     Search for other Stacks of the same Item, when item is used
     */
@@ -49,6 +68,26 @@ public class InventoryListener implements Listener {
                 }
             }
         };
+        if(material.isEdible()){
+            inventoryRunnable=new BukkitRunnable() {
+                @Override
+                public void run() {
+
+                    if(event.getPlayer().getInventory().getItem(hand).getType()==Material.AIR){
+
+                        ItemStack item = searchForFood(event.getPlayer().getInventory());
+                        if(item==null){
+
+                            return;
+                        }
+                        event.getPlayer().getInventory().removeItem(item);
+                        event.getPlayer().getInventory().setItem(hand, item);
+                    }
+                }
+            };
+            inventoryRunnable.runTaskLaterAsynchronously(this.plugin, 33);
+            return;
+        }
         inventoryRunnable.runTaskAsynchronously(this.plugin);
     }
 
@@ -71,6 +110,27 @@ public class InventoryListener implements Listener {
                         } else if (biggestStack.getAmount() <= stack.getAmount()) {
                             biggestStack = stack;
                         }
+                    }
+                }
+            }
+        }
+        return biggestStack;
+    }
+    /*
+    Search for Food in Inventory
+     */
+    private ItemStack searchForFood(PlayerInventory inventory){
+        if(inventory==null){
+            return null;
+        }
+        ItemStack biggestStack=null;
+        for(ItemStack stack:inventory.getContents()){
+            if(stack != null) {
+                if (stack.getType().isEdible()) {
+                    if (biggestStack == null) {
+                        biggestStack = stack;
+                    } else if (biggestStack.getAmount() <= stack.getAmount()) {
+                        biggestStack = stack;
                     }
                 }
             }
