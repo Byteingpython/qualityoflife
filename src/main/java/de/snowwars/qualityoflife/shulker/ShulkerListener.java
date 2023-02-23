@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.plugin.Plugin;
 
@@ -53,6 +54,7 @@ public class ShulkerListener implements Listener {
     }
     @EventHandler
     public void onInventory(InventoryClickEvent event){
+
         if(event.getClickedInventory()==null){
             return;
         }
@@ -61,6 +63,9 @@ public class ShulkerListener implements Listener {
                 closeShulkerBox(event.getClickedInventory(), (Player) event.getWhoClicked());
                 return;
             }
+        }
+        if(!(event.getInventory() instanceof PlayerInventory)){
+            return;
         }
         if(event.getClick()== ClickType.LEFT){
 

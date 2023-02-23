@@ -20,7 +20,7 @@ Replace used Item with another Stack of the same Item
  */
 
 public class InventoryListener implements Listener {
-    List<String> toolTypes = List.of("AXE", "HOE", "PICKAXE", "SHOVEL", "SWORD", "STEEL", "SHEARS");
+    List<String> toolTypes = List.of("AXE", "HOE", "PICKAXE", "SHOVEL", "SWORD", "STEEL", "SHEARS", "SWORD", "TRIDENT", "BOW", "ROD");
     private Plugin plugin;
 
     public InventoryListener(final Plugin plugin) {
@@ -61,7 +61,9 @@ public class InventoryListener implements Listener {
             }
         }.runTaskAsynchronously(this.plugin);
     }
-
+    /*
+    If a weapon is Broken, replace it with another Weapon of the same Type
+     */
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event){
@@ -70,12 +72,23 @@ public class InventoryListener implements Listener {
             if(player.getInventory().getItemInMainHand().getType()!=Material.AIR){
                 Material material = player.getInventory().getItemInMainHand().getType();
                 String name = material.toString().split("_")[material.toString().split("_").length-1];
+                if(!toolTypes.contains(name)){
+                    return;
+                }
                 BukkitRunnable runnable = new BukkitRunnable() {
                     @Override
                     public void run() {
-                        se
+                        if(player.getInventory().getItemInMainHand().getType()==Material.AIR){
+                            ItemStack item = searchForItem(player.getInventory(), name);
+                            if(item==null){
+                                return;
+                            }
+                            player.getInventory().removeItem(item);
+                            player.getInventory().setItemInMainHand(item);
+                        }
                     }
-                }
+                };
+                runnable.runTaskAsynchronously(this.plugin);
             }
         }
     }
@@ -168,14 +181,14 @@ public class InventoryListener implements Listener {
             if (stack.getType().toString().toLowerCase().contains(toolType.toLowerCase())) {
                 if (biggestStack == null) {
                     biggestStack = stack;
-                }
-                else if (stack.getType().getMaxDurability() > biggestStack.getType().getMaxDurability()) {
+                } else if (stack.getType().getMaxDurability() > biggestStack.getType().getMaxDurability()) {
                     biggestStack = stack;
                 }
 
             }
         }
-
+        return biggestStack;
+    }
 
     /*
     Search for Food in Inventory
