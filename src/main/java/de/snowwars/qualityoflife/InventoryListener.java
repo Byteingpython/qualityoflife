@@ -39,7 +39,7 @@ public class InventoryListener implements Listener {
         Material material = event.getPlayer().getInventory().getItemInMainHand().getType();
         String[] name = material.toString().split("_");
         String toolType = name[name.length - 1];
-        Bukkit.getLogger().log(java.util.logging.Level.INFO, "\"" + toolType+ "\"" + " is the ToolType");
+
         if (!toolTypes.contains(toolType)) {
             Bukkit.getLogger().log(java.util.logging.Level.INFO, "ToolType not in Array");
             return;
@@ -52,7 +52,6 @@ public class InventoryListener implements Listener {
 
                     ItemStack item = searchForItem(event.getPlayer().getInventory(), toolType);
                     if (item == null) {
-                        Bukkit.getLogger().log(java.util.logging.Level.INFO, "No Item found");
                         return;
                     }
                     event.getPlayer().getInventory().removeItem(item);
