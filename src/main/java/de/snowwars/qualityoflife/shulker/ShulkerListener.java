@@ -6,9 +6,11 @@ import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -52,6 +54,35 @@ public class ShulkerListener implements Listener {
             closeShulkerBox(event.getInventory(), (Player) event.getPlayer());
         }
     }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event){
+        if(event.getItem()==null){
+            return;
+        }
+        if(event.getItem().getType()== Material.SHULKER_BOX){
+
+            ItemStack item=event.getItem();
+            if(item.getItemMeta()==null){
+                return;
+            }
+            if(event.getAction()!= Action.LEFT_CLICK_AIR && event.getAction()!= Action.LEFT_CLICK_BLOCK){
+                return;
+            }
+            event.setCancelled(true);
+            ShulkerBox shulkerBox= (ShulkerBox) ((BlockStateMeta) item.getItemMeta()).getBlockState();
+            Inventory inventory = Bukkit.createInventory(null, 27, item.getItemMeta().getDisplayName());
+            inventory.setContents(shulkerBox.getInventory().getContents());
+            event.getPlayer().closeInventory();
+            event.getPlayer().openInventory(inventory);
+            openInventories.put(inventory, item);
+            openInventoriesSlot.put(inventory, event.getPlayer().getInventory().getHeldItemSlot());
+            //Play shulkerbox open sound
+            if(event.getPlayer() instanceof Player){
+                event.getPlayer().playSound(event.getPlayer().getLocation(), "minecraft:block.shulker_box.open", 1, 1);
+            }
+        }
+    }
     @EventHandler
     public void onInventory(InventoryClickEvent event){
 
@@ -64,7 +95,7 @@ public class ShulkerListener implements Listener {
                 return;
             }
         }
-        if(!(event.getInventory() instanceof PlayerInventory)){
+        if(!(event.getClickedInventory() instanceof PlayerInventory)){
             return;
         }
         if(event.getClick()== ClickType.LEFT){
