@@ -19,8 +19,8 @@ public class AfkSave implements Listener {
     BukkitRunnable runnable = new BukkitRunnable() {
         @Override
         public void run() {
-            for(UUID uuid:afkTime.keySet()){
-                afkTime.put(uuid, afkTime.get(uuid)+1);
+            for(Map.Entry<UUID, Integer> entry:afkTime.entrySet()){
+                afkTime.put(entry.getKey(), afkTime.get(entry.getKey())+1);
             }
         }
     };
