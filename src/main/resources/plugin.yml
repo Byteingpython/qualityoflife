@@ -2,3 +2,6 @@ name: QualityofLife
 version: '${project.version}'
 main: de.snowwars.qualityoflife.Qualityoflife
 api-version: 1.19
+commands:
+  status:
+    description: Changes the Player Status

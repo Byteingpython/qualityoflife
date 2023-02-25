@@ -41,7 +41,6 @@ public class InventoryListener implements Listener {
         String toolType = name[name.length - 1];
 
         if (!toolTypes.contains(toolType)) {
-            Bukkit.getLogger().log(java.util.logging.Level.INFO, "ToolType not in Array");
             return;
         }
         new BukkitRunnable() {

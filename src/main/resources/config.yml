@@ -1,0 +1,10 @@
+stati:
+  first:
+    default: "&7█"
+    dnd: "&#ff0000█"
+    open: "&#00ff00█"
+
+  second:
+    default: "&7█"
+    recording: "&#ff0000█"
+    streaming: "&#ffff00█"
