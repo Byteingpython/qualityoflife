@@ -1,5 +1,6 @@
 package de.snowwars.qualityoflife;
 
+import de.snowwars.qualityoflife.keepinventory.AfkSave;
 import de.snowwars.qualityoflife.keepinventory.KeepImportant;
 import de.snowwars.qualityoflife.keepinventory.SaveInventory;
 import de.snowwars.qualityoflife.shulker.ShulkerListener;
@@ -25,7 +26,7 @@ public final class Qualityoflife extends JavaPlugin {
         StatusCommand statusCommand = new StatusCommand(configuration, this);
         this.getCommand("status").setExecutor(statusCommand);
         this.getCommand("status").setTabCompleter(statusCommand);
-
+        AfkSave afkSave=new AfkSave(this);
 
     }
 
