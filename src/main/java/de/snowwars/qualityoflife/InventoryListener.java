@@ -64,21 +64,21 @@ public class InventoryListener implements Listener {
      */
 
     @EventHandler
-    public void onDamage(EntityDamageByEntityEvent event){
-        if(event.getDamager() instanceof Player){
+    public void onDamage(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player) {
             Player player = (Player) event.getDamager();
-            if(player.getInventory().getItemInMainHand().getType()!=Material.AIR){
+            if (player.getInventory().getItemInMainHand().getType() != Material.AIR) {
                 Material material = player.getInventory().getItemInMainHand().getType();
-                String name = material.toString().split("_")[material.toString().split("_").length-1];
-                if(!toolTypes.contains(name)){
+                String name = material.toString().split("_")[material.toString().split("_").length - 1];
+                if (!toolTypes.contains(name)) {
                     return;
                 }
                 BukkitRunnable runnable = new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if(player.getInventory().getItemInMainHand().getType()==Material.AIR){
+                        if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                             ItemStack item = searchForItem(player.getInventory(), name);
-                            if(item==null){
+                            if (item == null) {
                                 return;
                             }
                             player.getInventory().removeItem(item);
@@ -90,6 +90,7 @@ public class InventoryListener implements Listener {
             }
         }
     }
+
     /*
     Search for other Stacks of the same Item, when item is used
     */
@@ -117,15 +118,15 @@ public class InventoryListener implements Listener {
                 }
             }
         };
-        if(material.isEdible()){
-            inventoryRunnable=new BukkitRunnable() {
+        if (material.isEdible()) {
+            inventoryRunnable = new BukkitRunnable() {
                 @Override
                 public void run() {
 
-                    if(event.getPlayer().getInventory().getItem(hand).getType()==Material.AIR){
+                    if (event.getPlayer().getInventory().getItem(hand).getType() == Material.AIR) {
 
                         ItemStack item = searchForFood(event.getPlayer().getInventory());
-                        if(item==null){
+                        if (item == null) {
 
                             return;
                         }
@@ -165,6 +166,7 @@ public class InventoryListener implements Listener {
         }
         return biggestStack;
     }
+
     private ItemStack searchForItem(PlayerInventory inventory, String toolType) {
         if (toolType == null || inventory == null) {
             return null;
@@ -191,13 +193,13 @@ public class InventoryListener implements Listener {
     /*
     Search for Food in Inventory
      */
-    private ItemStack searchForFood(PlayerInventory inventory){
-        if(inventory==null){
+    private ItemStack searchForFood(PlayerInventory inventory) {
+        if (inventory == null) {
             return null;
         }
-        ItemStack biggestStack=null;
-        for(ItemStack stack:inventory.getContents()){
-            if(stack != null) {
+        ItemStack biggestStack = null;
+        for (ItemStack stack : inventory.getContents()) {
+            if (stack != null) {
                 if (stack.getType().isEdible()) {
                     if (biggestStack == null) {
                         biggestStack = stack;

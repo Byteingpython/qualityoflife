@@ -1,6 +1,5 @@
 package de.snowwars.qualityoflife.keepinventory;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -19,11 +18,12 @@ public class AfkSave implements Listener {
     BukkitRunnable runnable = new BukkitRunnable() {
         @Override
         public void run() {
-            for(Map.Entry<UUID, Integer> entry:afkTime.entrySet()){
-                afkTime.put(entry.getKey(), afkTime.get(entry.getKey())+1);
+            for (Map.Entry<UUID, Integer> entry : afkTime.entrySet()) {
+                afkTime.put(entry.getKey(), afkTime.get(entry.getKey()) + 1);
             }
         }
     };
+
     public AfkSave(Plugin plugin) {
         if (plugin == null) {
             return;
@@ -33,21 +33,25 @@ public class AfkSave implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent event){
+    public void onInteract(PlayerInteractEvent event) {
         afkTime.put(event.getPlayer().getUniqueId(), 0);
     }
+
     @EventHandler
-    public void onMove(PlayerMoveEvent event){
+    public void onMove(PlayerMoveEvent event) {
         afkTime.put(event.getPlayer().getUniqueId(), 0);
     }
+
     @EventHandler
-    public void onJoin(PlayerJoinEvent event){
+    public void onJoin(PlayerJoinEvent event) {
         afkTime.put(event.getPlayer().getUniqueId(), 0);
     }
-    @EventHandler
-    public void onDeath(PlayerDeathEvent event){
-        if(afkTime.get(event.getEntity().getUniqueId())>60){
+
+    @EventHandler(priority = org.bukkit.event.EventPriority.HIGHEST)
+    public void onDeath(PlayerDeathEvent event) {
+        if (afkTime.get(event.getEntity().getUniqueId()) > 60) {
             event.setKeepInventory(true);
+            event.getDrops().clear();
         }
     }
 }
