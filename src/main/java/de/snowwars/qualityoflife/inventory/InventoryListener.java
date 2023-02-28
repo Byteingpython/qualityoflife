@@ -1,4 +1,4 @@
-package de.snowwars.qualityoflife;
+package de.snowwars.qualityoflife.inventory;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -29,6 +29,7 @@ public class InventoryListener implements Listener {
         }
         Bukkit.getPluginManager().registerEvents(this, plugin);
         this.plugin = plugin;
+        TransferItems transferItems = new TransferItems(plugin);
     }
 
     /*
