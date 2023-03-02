@@ -1,4 +1,4 @@
-package de.snowwars.qualityoflife.shulker;
+package de.snowwars.qualityoflife.inventory.shulker;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,6 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -64,6 +65,9 @@ public class ShulkerListener implements Listener {
         if (event.getItem().getType() == Material.SHULKER_BOX) {
 
             ItemStack item = event.getItem();
+            if (event.getPlayer().getOpenInventory().getType() != InventoryType.CRAFTING) {
+                return;
+            }
             if (item.getItemMeta() == null) {
                 return;
             }
@@ -87,19 +91,12 @@ public class ShulkerListener implements Listener {
 
     @EventHandler
     public void onInventory(InventoryClickEvent event) {
-
         if (event.getClickedInventory() == null) {
             return;
         }
         if (openInventories.containsKey(event.getWhoClicked().getOpenInventory().getTopInventory()) && event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.SHULKER_BOX) {
             event.setCancelled(true);
             return;
-        }
-        if (event.getClick() == ClickType.DOUBLE_CLICK) {
-            if (openInventories.containsKey(event.getClickedInventory())) {
-                closeShulkerBox(event.getClickedInventory(), (Player) event.getWhoClicked());
-                return;
-            }
         }
         if (!(event.getClickedInventory() instanceof PlayerInventory)) {
             return;

@@ -1,15 +1,19 @@
 package de.snowwars.qualityoflife;
 
-import de.snowwars.qualityoflife.keepinventory.AfkSave;
-import de.snowwars.qualityoflife.keepinventory.KeepImportant;
-import de.snowwars.qualityoflife.keepinventory.SaveInventory;
-import de.snowwars.qualityoflife.shulker.ShulkerListener;
+import de.snowwars.qualityoflife.block.Vine;
+import de.snowwars.qualityoflife.inventory.InventoryListener;
+import de.snowwars.qualityoflife.inventory.backpack.BackpackCommand;
+import de.snowwars.qualityoflife.inventory.backpack.BackpackManager;
+import de.snowwars.qualityoflife.inventory.keepinventory.AfkSave;
+import de.snowwars.qualityoflife.inventory.keepinventory.KeepImportant;
+import de.snowwars.qualityoflife.inventory.keepinventory.SaveInventory;
+import de.snowwars.qualityoflife.inventory.shulker.ShulkerListener;
 import de.snowwars.qualityoflife.status.StatusCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Qualityoflife extends JavaPlugin {
-
+    BackpackManager manager;
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -20,14 +24,17 @@ public final class Qualityoflife extends JavaPlugin {
         KeepImportant keepImportant = new KeepImportant(this);
         SaveInventory saveInventory = new SaveInventory(this);
         StatusCommand statusCommand = new StatusCommand(configuration, this);
+        manager= new BackpackManager(this);
         this.getCommand("status").setExecutor(statusCommand);
         this.getCommand("status").setTabCompleter(statusCommand);
         AfkSave afkSave = new AfkSave(this);
+        new BackpackCommand(manager, this);
+        new Vine(this);
 
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        manager.saveBackpacks();
     }
 }

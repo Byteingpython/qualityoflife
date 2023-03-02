@@ -1,4 +1,4 @@
-package de.snowwars.qualityoflife.keepinventory;
+package de.snowwars.qualityoflife.inventory.keepinventory;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

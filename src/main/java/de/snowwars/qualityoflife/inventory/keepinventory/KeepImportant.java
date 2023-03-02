@@ -1,4 +1,4 @@
-package de.snowwars.qualityoflife.keepinventory;
+package de.snowwars.qualityoflife.inventory.keepinventory;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -7,13 +7,14 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /*
  Keep important Items on Death
  */
 public class KeepImportant implements Listener {
-    List<String> important_items = List.of("DIAMOND", "NETHERITE", "ELYTRA", "SHULKER");
+    private static List<String> important_items = List.of("DIAMOND", "NETHERITE", "ELYTRA", "SHULKER");
     Map<UUID, List<ItemStack>> keepDrops = new HashMap<>();
 
     public KeepImportant(Plugin plugin) {
@@ -43,8 +44,26 @@ public class KeepImportant implements Listener {
     public void onRespawn(PlayerRespawnEvent event) {
         if (keepDrops.containsKey(event.getPlayer().getUniqueId())) {
             for (ItemStack stack : keepDrops.get(event.getPlayer().getUniqueId())) {
-                event.getPlayer().getInventory().addItem(stack);
+                if(event.getPlayer().getInventory().firstEmpty()!=-1){
+                    event.getPlayer().getInventory().addItem(stack);
+                }
+                else {
+                    event.getPlayer().getWorld().dropItem(event.getRespawnLocation(), stack);
+                }
             }
         }
+    }
+
+    public static ItemStack[] parseDrops(ItemStack[] drops) {
+        List<ItemStack> newDrops = new ArrayList<>();
+        for (ItemStack stack : drops) {
+            if(stack==null) continue;
+            String[] name = stack.getType().toString().split("_");
+            String toolType = name[0];
+            if (!important_items.contains(toolType)) {
+                newDrops.add(stack);
+            }
+        }
+        return newDrops.toArray(new ItemStack[0]);
     }
 }
