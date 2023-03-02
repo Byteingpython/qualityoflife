@@ -7,6 +7,7 @@ import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
@@ -23,6 +24,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
+
+import static de.snowwars.qualityoflife.inventory.keepinventory.KeepImportant.parseDrops;
 
 public class BackpackManager implements Listener {
     Map<UUID, ItemStack[]> backpacks;
@@ -137,8 +140,22 @@ public class BackpackManager implements Listener {
         if(event.getCurrentItem().getType() == Material.AIR){
             return;
         }
+        if(!event.getCurrentItem().hasItemMeta()){
+            return;
+        }
         if(event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.BYTE)){
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event){
+        if(backpacks.containsKey(event.getEntity().getUniqueId())){
+            ItemStack[] drops = parseDrops(backpacks.get(event.getEntity().getUniqueId()));
+            List<ItemStack> backpack = new LinkedList<>(Arrays.asList(backpacks.get(event.getEntity().getUniqueId())));
+            backpack.removeAll(Arrays.asList(drops));
+            event.getDrops().addAll(Arrays.asList(drops));
+            backpacks.put(event.getEntity().getUniqueId(), backpack.toArray(new ItemStack[0]));
         }
     }
 
