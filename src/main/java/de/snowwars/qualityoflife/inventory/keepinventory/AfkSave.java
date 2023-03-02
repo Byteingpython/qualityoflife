@@ -1,5 +1,7 @@
 package de.snowwars.qualityoflife.inventory.keepinventory;
 
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -8,12 +10,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class AfkSave implements Listener {
+public class AfkSave extends PlaceholderExpansion implements Listener {
     Map<UUID, Integer> afkTime = new HashMap<>();
     BukkitRunnable runnable = new BukkitRunnable() {
         @Override
@@ -53,5 +56,30 @@ public class AfkSave implements Listener {
             event.setKeepInventory(true);
             event.getDrops().clear();
         }
+    }
+
+    @Override
+    public @NotNull String getIdentifier() {
+        return "afk";
+    }
+
+    @Override
+    public @NotNull String getAuthor() {
+        return "Snowwars";
+    }
+
+    @Override
+    public @NotNull String getVersion() {
+        return "1.0.0";
+    }
+
+    @Override
+    public String onRequest(OfflinePlayer player, @NotNull String params) {
+        if(afkTime.containsKey(player.getUniqueId())) {
+            if(afkTime.get(player.getUniqueId()) > 60) {
+                return "&7";
+            }
+        }
+        return "";
     }
 }

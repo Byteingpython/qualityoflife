@@ -1,5 +1,6 @@
 package de.snowwars.qualityoflife;
 
+import de.snowwars.qualityoflife.block.Vine;
 import de.snowwars.qualityoflife.inventory.InventoryListener;
 import de.snowwars.qualityoflife.inventory.backpack.BackpackCommand;
 import de.snowwars.qualityoflife.inventory.backpack.BackpackManager;
@@ -28,6 +29,7 @@ public final class Qualityoflife extends JavaPlugin {
         this.getCommand("status").setTabCompleter(statusCommand);
         AfkSave afkSave = new AfkSave(this);
         new BackpackCommand(manager, this);
+        new Vine(this);
 
     }
 

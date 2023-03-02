@@ -15,14 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransferItems implements Listener {
-    private Plugin plugin;
 
     public TransferItems(Plugin plugin) {
         if (plugin == null) {
             return;
         }
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        this.plugin = plugin;
     }
 
     private ItemStack[] searchForItems(Inventory inventory, Material material) {
