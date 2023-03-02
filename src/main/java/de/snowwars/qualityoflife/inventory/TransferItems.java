@@ -25,7 +25,7 @@ public class TransferItems implements Listener {
 
     private ItemStack[] searchForItems(Inventory inventory, Material material) {
         if (inventory == null || material == null) {
-            return null;
+            return new ItemStack[0];
         }
         List<ItemStack> stacks = new ArrayList<>();
         for (ItemStack stack : inventory.getContents()) {
