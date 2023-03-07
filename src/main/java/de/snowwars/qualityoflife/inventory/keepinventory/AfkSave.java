@@ -84,8 +84,8 @@ public class AfkSave extends PlaceholderExpansion implements Listener {
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
-        if(afkTime.containsKey(player.getUniqueId())) {
-            if(afkTime.get(player.getUniqueId()) > 60) {
+        if (afkTime.containsKey(player.getUniqueId())) {
+            if (afkTime.get(player.getUniqueId()) > 60) {
                 return "&7";
             }
         }
