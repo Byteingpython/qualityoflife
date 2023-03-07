@@ -61,6 +61,8 @@ public class AfkSave extends PlaceholderExpansion implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         if (afkTime.get(event.getEntity().getUniqueId()) > 60) {
             event.setKeepInventory(true);
+            event.setKeepLevel(true);
+            event.setDroppedExp(0);
             event.getDrops().clear();
         }
     }

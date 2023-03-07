@@ -1,6 +1,10 @@
 package de.snowwars.qualityoflife.arena;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -49,15 +53,17 @@ public class ArenaManager implements Listener {
     public void onMove(PlayerMoveEvent event) {
        if(!isArena(event.getTo())) return;
          if(!isArena(event.getFrom())) {
-              event.getPlayer().sendMessage("You entered an arena");
+             event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN + "You entered an arena"));
          }
     }
     @EventHandler(priority = org.bukkit.event.EventPriority.HIGHEST)
     public void onDeath(PlayerDeathEvent event) {
         if(!isArena(event.getEntity().getLocation())) return;
-        event.setNewTotalExp(event.getEntity().getTotalExperience());
+        event.setKeepLevel(true);
         event.setKeepInventory(true);
+        event.setDroppedExp(0);
         event.getEntity().sendMessage("You died in an arena");
+        event.getDrops().clear();
     }
     public void addArena(Location location, int radius) {
         arenas.put(location, radius);

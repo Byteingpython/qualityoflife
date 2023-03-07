@@ -5,8 +5,20 @@ api-version: 1.19
 commands:
   status:
     description: Changes the Player Status
+    permission: status
   arena:
     description: Adds an arena
-    default: op
+    permission: arena
   backpack:
     description: Opens the Backpack
+    permission: backpack
+permissions:
+    status:
+        description: Changes the Player Status
+        default: true
+    arena:
+        description: Adds an arena
+        default: op
+    backpack:
+        description: Opens the Backpack
+        default: true

@@ -29,6 +29,7 @@ public class ArenaCommand implements CommandExecutor {
            player.sendMessage("Arena center set");
        }
        else {
+           player.sendMessage("Arena created");
            arenaManager.addArena(arenas.get(player.getUniqueId()), (int) Math.ceil(player.getLocation().distance(arenas.get(player.getUniqueId()))));
               arenas.remove(player.getUniqueId());
        }

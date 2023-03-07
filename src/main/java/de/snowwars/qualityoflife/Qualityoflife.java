@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Qualityoflife extends JavaPlugin {
     BackpackManager manager;
+    ArenaManager arenaManager;
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -34,8 +35,8 @@ public final class Qualityoflife extends JavaPlugin {
         new Vine(this);
 
         if(configuration.get("features.arena") != null && configuration.getBoolean("features.arena")) {
-            ArenaManager arenaListener = new ArenaManager(this);
-            ArenaCommand arenaCommand = new ArenaCommand(arenaListener);
+            arenaManager = new ArenaManager(this);
+            ArenaCommand arenaCommand = new ArenaCommand(arenaManager);
             this.getCommand("arena").setExecutor(arenaCommand);
         }
     }
@@ -43,5 +44,6 @@ public final class Qualityoflife extends JavaPlugin {
     @Override
     public void onDisable() {
         manager.saveBackpacks();
+        arenaManager.saveArenas();
     }
 }

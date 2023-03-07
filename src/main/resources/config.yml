@@ -9,4 +9,4 @@ stati:
     recording: "&#ff0000█"
     streaming: "&#ffff00█"
 features:
-  arena: true;
+  arena: true
