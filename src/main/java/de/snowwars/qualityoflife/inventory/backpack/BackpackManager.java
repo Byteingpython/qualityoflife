@@ -49,7 +49,7 @@ public class BackpackManager implements Listener {
             if (advancement.getKey().getKey().contains("recipes")) {
                 continue;
             }
-            if(player.getAdvancementProgress(advancement).isDone()) {
+            if (player.getAdvancementProgress(advancement).isDone()) {
                 numberOfAdvancements++;
             }
 
@@ -64,23 +64,23 @@ public class BackpackManager implements Listener {
         Integer advancements = (int) Math.floor(getNumberOfAdvancements(player) / 2);
         Integer inventorySize = advancements - (advancements % 9) + 9;
         Inventory inventory = Bukkit.createInventory(null, inventorySize, "§6Backpack");
-        if(backpacks.containsKey(player.getUniqueId())){
+        if (backpacks.containsKey(player.getUniqueId())) {
             try {
                 inventory.setContents(backpacks.get(player.getUniqueId()));
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 Bukkit.getLogger().log(Level.WARNING, "Could not load backpack");
                 Bukkit.getLogger().log(Level.WARNING, "Too little Inventory Size");
                 player.sendMessage("§cCould not load backpack. Contact an Admin");
             }
 
         }
-        for(int i = 0; i < 9-advancements%9; i++){
+        for (int i = 0; i < 9 - advancements % 9; i++) {
             ItemStack stack = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
             ItemMeta meta = stack.getItemMeta();
             meta.setDisplayName("§7 Not Available");
             meta.getPersistentDataContainer().set(key, PersistentDataType.BYTE, (byte) 1);
             stack.setItemMeta(meta);
-            inventory.setItem(inventorySize - i -1, stack);
+            inventory.setItem(inventorySize - i - 1, stack);
         }
         openInventories.add(inventory);
         player.openInventory(inventory);
@@ -90,9 +90,9 @@ public class BackpackManager implements Listener {
     public void onClose(InventoryCloseEvent event) {
         if (openInventories.contains(event.getInventory())) {
             ItemStack[] contents = event.getInventory().getContents();
-            for(ItemStack stack : event.getInventory().getContents()){
-                if(stack != null && stack.getType() != Material.AIR){
-                    if(stack.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.BYTE)){
+            for (ItemStack stack : event.getInventory().getContents()) {
+                if (stack != null && stack.getType() != Material.AIR) {
+                    if (stack.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.BYTE)) {
                         contents[Arrays.asList(contents).indexOf(stack)] = null;
                     }
                 }
@@ -102,7 +102,7 @@ public class BackpackManager implements Listener {
         }
     }
 
-    public void saveBackpacks(){
+    public void saveBackpacks() {
         try {
             FileOutputStream stream = new FileOutputStream(plugin.getDataFolder() + "/backpacks.dat");
             BukkitObjectOutputStream outputStream = new BukkitObjectOutputStream(stream);
@@ -115,7 +115,7 @@ public class BackpackManager implements Listener {
 
     }
 
-    private Map<UUID, ItemStack[]> loadBackpacks(){
+    private Map<UUID, ItemStack[]> loadBackpacks() {
         Map<UUID, ItemStack[]> backpacks;
         try {
             FileInputStream stream = new FileInputStream(plugin.getDataFolder() + "/backpacks.dat");
@@ -133,24 +133,24 @@ public class BackpackManager implements Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent event){
-        if(event.getCurrentItem()==null){
+    public void onClick(InventoryClickEvent event) {
+        if (event.getCurrentItem() == null) {
             return;
         }
-        if(event.getCurrentItem().getType() == Material.AIR){
+        if (event.getCurrentItem().getType() == Material.AIR) {
             return;
         }
-        if(!event.getCurrentItem().hasItemMeta()){
+        if (!event.getCurrentItem().hasItemMeta()) {
             return;
         }
-        if(event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.BYTE)){
+        if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.BYTE)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent event){
-        if(backpacks.containsKey(event.getEntity().getUniqueId())){
+    public void onDeath(PlayerDeathEvent event) {
+        if (backpacks.containsKey(event.getEntity().getUniqueId())) {
             ItemStack[] drops = parseDrops(backpacks.get(event.getEntity().getUniqueId()));
             List<ItemStack> backpack = new LinkedList<>(Arrays.asList(backpacks.get(event.getEntity().getUniqueId())));
             backpack.removeAll(Arrays.asList(drops));
@@ -158,8 +158,6 @@ public class BackpackManager implements Listener {
             backpacks.put(event.getEntity().getUniqueId(), backpack.toArray(new ItemStack[0]));
         }
     }
-
-
 
 
 }
