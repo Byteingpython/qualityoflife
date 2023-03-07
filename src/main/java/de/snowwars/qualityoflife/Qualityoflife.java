@@ -1,5 +1,6 @@
 package de.snowwars.qualityoflife;
 
+import de.snowwars.qualityoflife.arena.ArenaCommand;
 import de.snowwars.qualityoflife.block.Vine;
 import de.snowwars.qualityoflife.inventory.InventoryListener;
 import de.snowwars.qualityoflife.inventory.backpack.BackpackCommand;
@@ -8,6 +9,7 @@ import de.snowwars.qualityoflife.inventory.keepinventory.AfkSave;
 import de.snowwars.qualityoflife.inventory.keepinventory.KeepImportant;
 import de.snowwars.qualityoflife.inventory.keepinventory.SaveInventory;
 import de.snowwars.qualityoflife.inventory.shulker.ShulkerListener;
+import de.snowwars.qualityoflife.arena.ArenaManager;
 import de.snowwars.qualityoflife.status.StatusCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,6 +33,11 @@ public final class Qualityoflife extends JavaPlugin {
         new BackpackCommand(manager, this);
         new Vine(this);
 
+        if(configuration.get("features.arena") != null && configuration.getBoolean("features.arena")) {
+            ArenaManager arenaListener = new ArenaManager(this);
+            ArenaCommand arenaCommand = new ArenaCommand(arenaListener);
+            this.getCommand("arena").setExecutor(arenaCommand);
+        }
     }
 
     @Override

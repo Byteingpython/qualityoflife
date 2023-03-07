@@ -5,5 +5,8 @@ api-version: 1.19
 commands:
   status:
     description: Changes the Player Status
+  arena:
+    description: Adds an arena
+    default: op
   backpack:
     description: Opens the Backpack

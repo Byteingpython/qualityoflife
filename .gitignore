@@ -118,5 +118,3 @@ target/
 .fleet/run.json
 
 .fleet/settings.json
-
-src/main/java/de/snowwars/qualityoflife/inventory/keepinventory/SaveInventory.java

@@ -8,3 +8,5 @@ stati:
     default: "&7█"
     recording: "&#ff0000█"
     streaming: "&#ffff00█"
+features:
+  arena: true;
