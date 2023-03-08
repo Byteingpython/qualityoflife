@@ -10,3 +10,12 @@ stati:
     streaming: "&#ffff00█"
 features:
   arena: true
+  autorefill: true
+  status: true
+  shulker: true
+  keepimportant: true
+  dumpinventory: true
+  backpack: true
+  vine: true
+  afksave: true
+  creeper: true

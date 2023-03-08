@@ -1,5 +1,6 @@
 package de.snowwars.qualityoflife.status;
 
+import de.snowwars.qualityoflife.utils.ConfigurationElement;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -33,7 +34,7 @@ public class StatusManager extends PlaceholderExpansion {
     }
 
     public Boolean setStatus(String first, String second, UUID uuid) {
-        if (configuration.contains("stati.first." + first) && configuration.contains("stati.second." + second)) {
+        if (configuration.contains(ConfigurationElement.FIRST_STATUS.getPath() + "." + first) && configuration.contains(ConfigurationElement.SECOND_STATUS.getPath() + "." + second)) {
             firstStatusPlayer.put(uuid, first);
             secondStatusPlayer.put(uuid, second);
         } else {
@@ -66,11 +67,11 @@ public class StatusManager extends PlaceholderExpansion {
         if (!(secondStatusPlayer.containsKey(player.getUniqueId()))) {
             secondStatusPlayer.put(player.getUniqueId(), "default");
         }
-        if (configuration.contains("stati.first." + firstStatusPlayer.get(player.getUniqueId()))) {
-            builder.append(configuration.get("stati.first." + firstStatusPlayer.get(player.getUniqueId())));
+        if (configuration.contains(ConfigurationElement.FIRST_STATUS.getPath() + "." + firstStatusPlayer.get(player.getUniqueId()))) {
+            builder.append(configuration.get(ConfigurationElement.FIRST_STATUS.getPath() + "." + firstStatusPlayer.get(player.getUniqueId())));
         }
-        if (configuration.contains("stati.second." + secondStatusPlayer.get(player.getUniqueId()))) {
-            builder.append(configuration.get("stati.second." + secondStatusPlayer.get(player.getUniqueId())));
+        if (configuration.contains(ConfigurationElement.SECOND_STATUS.getPath() + "." + secondStatusPlayer.get(player.getUniqueId()))) {
+            builder.append(configuration.get(ConfigurationElement.SECOND_STATUS.getPath() + "." + secondStatusPlayer.get(player.getUniqueId())));
         }
         builder.append("&r");
         return builder.toString();

@@ -13,7 +13,7 @@ import java.util.*;
  Keep important Items on Death
  */
 public class KeepImportant implements Listener {
-    private static List<String> important_items = List.of("DIAMOND", "NETHERITE", "ELYTRA", "SHULKER");
+    private static final List<String> important_items = List.of("DIAMOND", "NETHERITE", "ELYTRA", "SHULKER");
     Map<UUID, List<ItemStack>> keepDrops = new HashMap<>();
 
     public KeepImportant(Plugin plugin) {

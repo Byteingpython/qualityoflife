@@ -48,7 +48,7 @@ public class SaveInventory implements Listener {
                 if (stack != null) {
                     StringBuilder line = new StringBuilder(stack.getType().name());
                     line.append(" x");
-                    line.append(Integer.toString(stack.getAmount()));
+                    line.append(stack.getAmount());
                     if (stack.hasItemMeta()) {
                         if (stack.getItemMeta().hasEnchants()) {
                             line.append(" Enchants: ");
@@ -60,7 +60,7 @@ public class SaveInventory implements Listener {
                             }
                         }
                     }
-                    content.append(line.toString());
+                    content.append(line);
                     content.append("\n");
                 }
                 writer.write(content.toString());
