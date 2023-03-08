@@ -1,5 +1,6 @@
 package de.snowwars.qualityoflife.status;
 
+import de.snowwars.qualityoflife.utils.ConfigurationElement;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -48,10 +49,10 @@ public class StatusCommand implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            completions.addAll(configuration.getConfigurationSection("stati.first").getKeys(false));
+            completions.addAll(configuration.getConfigurationSection(ConfigurationElement.FIRST_STATUS.getPath()).getKeys(false));
         }
         if (args.length == 2) {
-            completions.addAll(configuration.getConfigurationSection("stati.second").getKeys(false));
+            completions.addAll(configuration.getConfigurationSection(ConfigurationElement.SECOND_STATUS.getPath()).getKeys(false));
         }
         List<String> matches = new ArrayList<>();
         copyPartialMatches(args[args.length - 1], completions, matches);
