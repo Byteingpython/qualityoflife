@@ -2,10 +2,13 @@ package de.snowwars.qualityoflife.arena;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -53,8 +56,10 @@ public class ArenaManager implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        if (!isArena(event.getTo())) return;
-        if (!isArena(event.getFrom())) {
+        if (!isArena(event.getTo())&&isArena(event.getFrom())){
+            event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + "You left an arena"));
+        }
+        if (!isArena(event.getFrom())&&isArena(event.getTo())) {
             event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN + "You entered an arena"));
         }
     }
@@ -86,5 +91,26 @@ public class ArenaManager implements Listener {
             }
         }
         return false;
+    }
+    public Location getArena(Location location){
+        for (Map.Entry<Location, Integer> entry : arenas.entrySet()) {
+            if (entry.getKey().getWorld().equals(location.getWorld())) {
+                if (entry.getKey().distance(location) <= entry.getValue()) {
+                    return entry.getKey();
+                }
+            }
+        }
+        return null;
+    }
+    @EventHandler
+    public void onEffect(EntityPotionEffectEvent event) {
+        if(isArena(event.getEntity().getLocation())){
+            event.setCancelled(true);
+            for(Player player:Bukkit.getServer().getOnlinePlayers()){
+                if(isArena(player.getLocation())){
+                    if(getArena(event.getEntity().getLocation())==getArena(player.getLocation())) player.addPotionEffect(event.getNewEffect());
+                }
+            }
+        }
     }
 }
