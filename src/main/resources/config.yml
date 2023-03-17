@@ -19,3 +19,4 @@ features:
   vine: true
   afksave: true
   creeper: true
+  alert: true

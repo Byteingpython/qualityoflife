@@ -12,6 +12,9 @@ commands:
   backpack:
     description: Opens the Backpack
     permission: backpack
+  alert:
+    description: Customize your command settings
+    permission: alert
 permissions:
     status:
         description: Changes the Player Status
@@ -21,4 +24,7 @@ permissions:
         default: op
     backpack:
         description: Opens the Backpack
+        default: true
+    alert:
+        description: Alerts the Player
         default: true

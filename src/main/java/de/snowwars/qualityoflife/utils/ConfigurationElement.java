@@ -12,7 +12,9 @@ public enum ConfigurationElement {
     VINE("features.vine"),
     FIRST_STATUS("stati.first"),
     SECOND_STATUS("stati.second"),
-    CREEPER("features.creeper");
+    CREEPER("features.creeper"),
+
+    ALERT("features.alert");
 
     private final String path;
 
