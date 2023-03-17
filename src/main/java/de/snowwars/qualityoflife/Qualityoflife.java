@@ -1,5 +1,6 @@
 package de.snowwars.qualityoflife;
 
+import de.snowwars.qualityoflife.alert.AlertCommand;
 import de.snowwars.qualityoflife.arena.ArenaCommand;
 import de.snowwars.qualityoflife.arena.ArenaManager;
 import de.snowwars.qualityoflife.block.Vine;
@@ -27,45 +28,60 @@ public final class Qualityoflife extends JavaPlugin {
         // Plugin startup logic
         FileConfiguration configuration = getConfig();
         saveDefaultConfig();
-        if (!configuration.contains(ConfigurationElement.AUTOREFILL.getPath()) && configuration.getBoolean(ConfigurationElement.AUTOREFILL.getPath())) {
+        if (configuration.contains(ConfigurationElement.AUTOREFILL.getPath()) && configuration.getBoolean(ConfigurationElement.AUTOREFILL.getPath())) {
             InventoryListener inventoryListener = new InventoryListener(this);
+            Bukkit.getLogger().info("[QualityOfLife] Autorefill enabled");
         }
-        if (configuration.get(ConfigurationElement.SHULKER.getPath()) != null && configuration.getBoolean(ConfigurationElement.SHULKER.getPath())) {
+        if (configuration.contains(ConfigurationElement.SHULKER.getPath()) && configuration.getBoolean(ConfigurationElement.SHULKER.getPath())) {
             ShulkerListener shulkerListener = new ShulkerListener(this);
+            Bukkit.getLogger().info("[QualityOfLife] Shulker enabled");
         }
-        if (configuration.get(ConfigurationElement.KEEPIMPORTANT.getPath()) != null && configuration.getBoolean(ConfigurationElement.KEEPIMPORTANT.getPath())) {
+        if (configuration.contains(ConfigurationElement.KEEPIMPORTANT.getPath()) && configuration.getBoolean(ConfigurationElement.KEEPIMPORTANT.getPath())) {
             KeepImportant keepImportant = new KeepImportant(this);
+            Bukkit.getLogger().info("[QualityOfLife] KeepImportant enabled");
         }
-        if (configuration.get(ConfigurationElement.DUMPINVENTORY.getPath()) != null && configuration.getBoolean(ConfigurationElement.DUMPINVENTORY.getPath())) {
+        if (configuration.contains(ConfigurationElement.DUMPINVENTORY.getPath()) && configuration.getBoolean(ConfigurationElement.DUMPINVENTORY.getPath())) {
             SaveInventory saveInventory = new SaveInventory(this);
+            Bukkit.getLogger().info("[QualityOfLife] DumpInventory enabled");
         }
-        if (configuration.get(ConfigurationElement.BACKPACK.getPath()) != null && configuration.getBoolean(ConfigurationElement.BACKPACK.getPath())) {
+        if (configuration.contains(ConfigurationElement.BACKPACK.getPath()) && configuration.getBoolean(ConfigurationElement.BACKPACK.getPath())) {
             manager = new BackpackManager(this);
             new BackpackCommand(manager, this);
+            Bukkit.getLogger().info("[QualityOfLife] Backpack enabled");
         } else {
             Bukkit.getPluginCommand("backpack").setExecutor(new DisabledCommand());
         }
-        if (configuration.get(ConfigurationElement.STATUS.getPath()) != null && configuration.getBoolean("features.status")) {
+        if (configuration.contains(ConfigurationElement.STATUS.getPath()) && configuration.getBoolean(ConfigurationElement.STATUS.getPath())) {
             StatusCommand statusCommand = new StatusCommand(configuration, this);
             this.getCommand("status").setExecutor(statusCommand);
             this.getCommand("status").setTabCompleter(statusCommand);
+            Bukkit.getLogger().info("[QualityOfLife] Status enabled");
         } else {
             Bukkit.getPluginCommand("status").setExecutor(new DisabledCommand());
         }
-        if (configuration.get(ConfigurationElement.AFKSAVE.getPath()) != null && configuration.getBoolean(ConfigurationElement.AFKSAVE.getPath())) {
+        if (configuration.contains(ConfigurationElement.AFKSAVE.getPath()) && configuration.getBoolean(ConfigurationElement.AFKSAVE.getPath())) {
             AfkSave afkSave = new AfkSave(this);
+            Bukkit.getLogger().info("[QualityOfLife] AfkSave enabled");
         }
-        if (configuration.get(ConfigurationElement.VINE.getPath()) != null && configuration.getBoolean(ConfigurationElement.VINE.getPath()))
+        if (configuration.contains(ConfigurationElement.VINE.getPath()) && configuration.getBoolean(ConfigurationElement.VINE.getPath())){
             new Vine(this);
-        if (configuration.get(ConfigurationElement.ARENA.getPath()) != null && configuration.getBoolean(ConfigurationElement.ARENA.getPath())) {
+            Bukkit.getLogger().info("[QualityOfLife] Vine enabled");
+        }
+        if (configuration.contains(ConfigurationElement.ARENA.getPath()) && configuration.getBoolean(ConfigurationElement.ARENA.getPath())) {
             arenaManager = new ArenaManager(this);
             ArenaCommand arenaCommand = new ArenaCommand(arenaManager);
             this.getCommand("arena").setExecutor(arenaCommand);
+            Bukkit.getLogger().info("[QualityOfLife] Arena enabled");
         } else {
             Bukkit.getPluginCommand("arena").setExecutor(new DisabledCommand());
         }
-        if (configuration.get(ConfigurationElement.CREEPER.getPath()) != null && configuration.getBoolean(ConfigurationElement.CREEPER.getPath())) {
+        if (configuration.contains(ConfigurationElement.CREEPER.getPath()) && configuration.getBoolean(ConfigurationElement.CREEPER.getPath())) {
             new CreeperListener(this);
+            Bukkit.getLogger().info("[QualityOfLife] Creeper enabled");
+        }
+        if (configuration.contains(ConfigurationElement.ALERT.getPath()) && configuration.getBoolean(ConfigurationElement.ALERT.getPath())) {
+            new AlertCommand(this);
+            Bukkit.getLogger().info("[QualityOfLife] Alert enabled");
         }
     }
 
