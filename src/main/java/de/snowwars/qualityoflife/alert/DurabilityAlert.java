@@ -68,6 +68,7 @@ public class DurabilityAlert implements Listener, Alert {
                 } else {
                     name = itemStack.getType().name();
                 }
+                deleteDurabilityAlertThreshold(itemStack);
                 AlertUtil.alert(AlertType.DURABILITY, player, name);
                 return true;
             }
